@@ -7,7 +7,8 @@ class Vis:
         self.span = span
         self.top=Tk()
         self.top.geometry(str(length)+'x'+str(width))  # size of the Gui
-        self.c = Canvas(self.top, height=300, width=300)  # canvas for drawing
+        self.top.title("Conway's Game of life")
+        self.c = Canvas(self.top, height=self.length, width=self.width)  # canvas for drawing
         # drawing the grid
         for i in range(0, 300, 20):
             self.c.create_line(i, 0, i, 300, width=3)
