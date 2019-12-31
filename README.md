@@ -3,7 +3,7 @@
 
 The Glider shape
  
-![](Animated GIF-source.gif)
+![](https://github.com/MostafaAhmed95/Conway_Game_of_Life_Python/blob/master/ezgif.com-video-to-gif.gif)
 
 # Description
 Project consists of two modules lis and Gui<br> 
