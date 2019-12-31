@@ -8,8 +8,8 @@ class Mop:
         self.width = width
         self.span = span
         #print(self.length/self.span)
-        self.l = np.zeros((int(self.length/self.span), int(self.length/self.span)))
-        self.n_l = np.zeros((int(self.length / self.span), int(self.length / self.span)))
+        self.l = np.zeros((int(self.length/self.span), int(self.width/self.span)))
+        self.n_l = np.zeros((int(self.length / self.span), int(self.width / self.span)))
     def init_pos(self,row,column):
         """initialize squares of the game"""
         self.l[row][column] = 1
@@ -108,6 +108,7 @@ class Mop:
             if self.l[i][j - 1] + self.l[i][j + 1] + self.l[i + 1][j - 1] + self.l[i + 1][j] + self.l[i + 1][j + 1] == 3:
                 self.n_l[i][j] = 1
             else:
+                #print(i, j)
                 self.n_l[i][j] = 0
         # last row
         elif i == self.l.shape[0] - 1:
@@ -137,9 +138,10 @@ class Mop:
 
     def next_it(self):
         """give me the shape of next iteration"""
-        n_l = np.zeros((5, 5))
+        self.n_l = np.zeros((15, 15))
         for i in range(self.l.shape[0]):
             for j in range(self.l.shape[1]):
+                #print(i,j)
                 if self.l[i][j] == 1:
                     self.calc_alive(i, j)
                 else:
