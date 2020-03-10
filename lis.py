@@ -14,135 +14,38 @@ class Mop:
         """initialize squares of the game"""
         self.l[row][column] = 1
 
-    def calc_alive(self, i, j):
-        """handle living cells"""
-        # upper left corner
-        if i == 0 and j == 0:
-            if self.l[i + 1][j] + self.l[i][j + 1] + self.l[i + 1][j + 1] == 2 or self.l[i + 1][j] + self.l[i][j + 1] + self.l[i + 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # lower right corner
-        elif i == self.l.shape[0] - 1 and j == self.l.shape[1] - 1:
-            if self.l[i][j - 1] + self.l[i - 1][j] + self.l[i - 1][j - 1] == 2 or self.l[i][j - 1] + self.l[i - 1][j] + self.l[i - 1][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # upper right corner
-        elif i == 0 and j == self.l.shape[1] - 1:
-            if self.l[i][j - 1] + self.l[i + 1][j] + self.l[i + 1][j - 1] == 2 or self.l[i][j - 1] + self.l[i + 1][j] + self.l[i + 1][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # lower left corner
-        elif i == self.l.shape[0] - 1 and j == 0:
-            if self.l[i - 1][j] + self.l[i][j + 1] + self.l[i - 1][j + 1] == 2 or self.l[i - 1][j] + self.l[i][j + 1] + self.l[i - 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # first row
-        elif i == 0:
-            if self.l[i][j - 1] + self.l[i][j + 1] + self.l[i + 1][j - 1] + self.l[i + 1][j] + self.l[i + 1][j + 1] == 2 or self.l[i][j - 1] + \
-                    self.l[i][j + 1] + self.l[i + 1][j - 1] + self.l[i + 1][j] + self.l[i + 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # last row
-        elif i == self.l.shape[0] - 1:
-            if self.l[i][j - 1] + self.l[i][j + 1] + self.l[i - 1][j - 1] + self.l[i - 1][j] + self.l[i - 1][j + 1] == 2 or self.l[i][j - 1] + \
-                    self.l[i][j + 1] + self.l[i - 1][j - 1] + self.l[i - 1][j] + self.l[i - 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # first col
-        elif j == 0:
-            if self.l[i - 1][j] + self.l[i + 1][j] + self.l[i - 1][j + 1] + self.l[i][j + 1] + self.l[i + 1][j + 1] == 2 or self.l[i - 1][j] + \
-                    self.l[i + 1][j] + self.l[i - 1][j + 1] + self.l[i][j + 1] + self.l[i + 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # last col
-        elif j == self.l.shape[1] - 1:
-            if self.l[i + 1][j] + self.l[i - 1][j] + self.l[i - 1][j - 1] + self.l[i][j - 1] + self.l[i + 1][j - 1] == 2 or self.l[i + 1][j] + \
-                    self.l[i - 1][j] + self.l[i - 1][j - 1] + self.l[i][j - 1] + self.l[i + 1][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # all normal squares
+    def alive(self,r,c):
+        alive_cells=0
+        #the cell is alive or not
+        if self.l[r][c]==1:
+            alive_cells=-1
+        for i in range(r - 1, (r - 1) + 3):
+            for j in range(c - 1, (c - 1) + 3):
+                if i in range(self.l.shape[0]) and j in range(self.l.shape[1]):
+                    if self.l[i][j] == 1:
+                        alive_cells = alive_cells + 1
+
+        #conditions of living
+        if self.l[r][c] == 0 and alive_cells == 3:
+            self.n_l[r][c] = 1
+        elif self.l[r][c] == 1 and 2 <= alive_cells <=3:
+            self.n_l[r][c] = 1
         else:
-            if self.l[i - 1][j - 1] + self.l[i - 1][j] + self.l[i - 1][j + 1] + self.l[i][j + 1] + self.l[i + 1][j + 1] + self.l[i + 1][j] + \
-                    self.l[i + 1][j - 1] + self.l[i][j - 1] == 2 or self.l[i - 1][j - 1] + self.l[i - 1][j] + self.l[i - 1][j + 1] + self.l[i][
-                j + 1] + self.l[i + 1][j + 1] + self.l[i + 1][j] + self.l[i + 1][j - 1] + self.l[i][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-
-    def calc_dead(self, i, j):
-        """handle dead cells"""
-        # upper left corner
-        if i == 0 and j == 0:
-            if self.l[i + 1][j] + self.l[i][j + 1] + self.l[i + 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # lower right corner
-        elif i == self.l.shape[0] - 1 and j == self.l.shape[1] - 1:
-            if self.l[i][j - 1] + self.l[i - 1][j] + self.l[i - 1][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # upper right corner
-        elif i == 0 and j == self.l.shape[1] - 1:
-            if self.l[i][j - 1] + self.l[i + 1][j] + self.l[i + 1][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # lower left corner
-        elif i == self.l.shape[0] - 1 and j == 0:
-            if self.l[i - 1][j] + self.l[i][j + 1] + self.l[i - 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-
-        # first row
-        elif i == 0:
-            if self.l[i][j - 1] + self.l[i][j + 1] + self.l[i + 1][j - 1] + self.l[i + 1][j] + self.l[i + 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # last row
-        elif i == self.l.shape[0] - 1:
-            if self.l[i][j - 1] + self.l[i][j + 1] + self.l[i - 1][j - 1] + self.l[i - 1][j] + self.l[i - 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # first col
-        elif j == 0:
-            if self.l[i - 1][j] + self.l[i + 1][j] + self.l[i - 1][j + 1] + self.l[i][j + 1] + self.l[i + 1][j + 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # last col
-        elif j == self.l.shape[1] - 1:
-            if self.l[i + 1][j] + self.l[i - 1][j] + self.l[i - 1][j - 1] + self.l[i][j - 1] + self.l[i + 1][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-        # all normal squares
-        else:
-            if self.l[i - 1][j - 1] + self.l[i - 1][j] + self.l[i - 1][j + 1] + self.l[i][j + 1] + self.l[i + 1][j + 1] + self.l[i + 1][j] + \
-                    self.l[i + 1][j - 1] + self.l[i][j - 1] == 3:
-                self.n_l[i][j] = 1
-            else:
-                self.n_l[i][j] = 0
-
+            self.n_l[r][c] = 0
     def next_it(self):
         """give me the shape of next iteration"""
         self.n_l = np.zeros((15, 15))
         for i in range(self.l.shape[0]):
             for j in range(self.l.shape[1]):
+                self.alive(i,j)
+                '''
                 if self.l[i][j] == 1:
                     self.calc_alive(i, j)
                 else:
                     self.calc_dead(i, j)
+                '''
         self.l=self.n_l
+
+
+
+
